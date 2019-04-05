@@ -8,7 +8,9 @@
 
 ## Task basics
 1. create task model
+  - `php artisan make:model Task -a`
 2. TDD task basics
+  - create task test
   - user can create and visit
   - guest can't create and visit
   - other user can't visit
