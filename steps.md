@@ -14,6 +14,10 @@
   - user can create and visit
   - guest can't create and visit
   - other user can't visit
+3. Views for the basics
+  - tasks index
+  - tasks show
+  - tasks create
 
 ## Task's time
 1. time model
