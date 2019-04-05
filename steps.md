@@ -1,0 +1,30 @@
+# Steps
+
+## Init steps
+1. install Laravel
+2. create mysql db
+3. make:auth
+4. install telescope (debug assistant)
+
+## Task basics
+1. create task model
+2. TDD task basics
+  - user can create and visit
+  - guest can't create and visit
+  - other user can't visit
+
+## Task's time
+1. time model
+2. TDD basic times
+  - user can start and stop
+  - guest can't start and stop
+  - other user can't start and stop
+3. show times for tasks (sum and 1-by-1)
+
+## Javascript
+0. clean laravel default js settings
+1. add turbolinks
+2. first stimulusjs
+  - start and stop time with stimulus
+
+## Update and Delete
