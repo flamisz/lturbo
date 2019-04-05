@@ -26,7 +26,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -93,7 +93,7 @@ class TaskController extends Controller
     {
         return request()->validate([
             'title' => 'sometimes|required',
-            'description' => 'sometimes|required'
+            'description' => 'nullable'
         ]);
     }
 }

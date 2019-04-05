@@ -39,6 +39,6 @@ class User extends Authenticatable
 
     public function tasks()
     {
-        return $this->hasMany('App\Task', 'owner_id');
+        return $this->hasMany('App\Task', 'owner_id')->latest('updated_at');
     }
 }

@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    Your tasks.
+                    <a href="/tasks/create">New task</a>
                 </div>
             </div>
 
