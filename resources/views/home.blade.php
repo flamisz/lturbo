@@ -15,6 +15,10 @@
                     @endif
 
                     You are logged in!
+                    <div data-controller="hello">
+                        <input type="text">
+                        <button>Greet</button>
+                    </div>
                 </div>
             </div>
         </div>
