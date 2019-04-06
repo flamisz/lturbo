@@ -80,4 +80,32 @@ class TaskTimeTest extends TestCase
 
         $this->assertNotNull($task->fresh()->times[0]->stop);
     }
+
+    /** @test */
+    public function cannot_start_time_to_task_if_there_is_unstopped_time()
+    {
+        $user = $this->signIn();
+
+        $task = factory(Task::class)->create(['owner_id' => $user->id]);
+
+        $task->start();
+        $this->assertCount(1, $task->times);
+
+        $this->post($task->path() . '/start')
+            ->assertStatus(422);
+
+        $this->assertCount(1, $task->fresh()->times);
+    }
+
+    /** @test */
+    public function cannot_stop_time_to_task_if_there_is_no_unstopped_time()
+    {
+        $user = $this->signIn();
+
+        $task = factory(Task::class)->create(['owner_id' => $user->id]);
+        factory(Time::class)->states('stopped')->create(['task_id' => $task]);
+
+        $this->post($task->path()  . '/stop')
+            ->assertStatus(422);
+    }
 }

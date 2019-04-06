@@ -16,7 +16,7 @@ class CreateTimesTable extends Migration
         Schema::create('times', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('task_id');
-            $table->timestamp('start');
+            $table->timestamp('start')->nullable();
             $table->timestamp('stop')->nullable();
 
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');

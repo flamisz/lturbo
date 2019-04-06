@@ -26,7 +26,7 @@
                             <small class="text-muted">XXX days ago</small>
                         </div>
                         <p class="mb-1">{{ $task->description }}</p>
-                        <small class="text-muted">Sum time</small>
+                        <small class="text-muted">{{ $task->length }}</small>
                     </a>
                 @endforeach
             </div>

@@ -25,7 +25,8 @@
   - user can start and stop
   - guest can't start and stop
   - other user can't start and stop
-3. show times for tasks (sum and 1-by-1)
+3. views for start/stop
+4. show times for tasks (sum and 1-by-1)
 
 ## Javascript
 0. clean laravel default js settings

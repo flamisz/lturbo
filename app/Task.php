@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Time;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
@@ -36,5 +37,21 @@ class Task extends Model
     public function times()
     {
         return $this->hasMany(Time::class);
+    }
+
+    public function hasUnstoppedTime()
+    {
+        return ! ! $this->times()->whereNull('stop')->count();
+    }
+
+    public function getLengthAttribute()
+    {
+        $length = CarbonInterval::create(0);
+
+        $this->times->each(function ($time) use ($length) {
+            $length = $length->add($time->length);
+        });
+
+        return $length;
     }
 }

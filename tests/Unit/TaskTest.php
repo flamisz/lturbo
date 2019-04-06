@@ -6,6 +6,7 @@ use App\Task;
 use App\Time;
 use App\User;
 use Tests\TestCase;
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -63,5 +64,46 @@ class TaskTest extends TestCase
 
         $this->assertCount(1, $task->times);
         $this->assertTrue($task->times->contains($time));
+    }
+
+    /** @test */
+    public function it_knows_about_unstopped_time()
+    {
+        $task = factory(Task::class)->create();
+        factory(Time::class)->states('started')->create(['task_id' => $task]);
+
+        $this->assertEquals(true, $task->hasUnstoppedTime());
+
+        $task = factory(Task::class)->create();
+        factory(Time::class)->states('stopped')->create(['task_id' => $task]);
+        $this->assertEquals(false, $task->hasUnstoppedTime());
+    }
+
+    /** @test */
+    public function it_knows_the_sum_time_length()
+    {
+        $task = factory(Task::class)->create();
+        factory(Time::class)
+            ->create([
+                'task_id' => $task->id,
+                'start' => new Carbon('2018-09-23 18:00:00'),
+                'stop' => new Carbon('2018-09-23 18:05:00'),
+            ]);
+
+        factory(Time::class)
+            ->create([
+                'task_id' => $task->id,
+                'start' => new Carbon('2018-09-23 19:00:00'),
+                'stop' => new Carbon('2018-09-23 19:05:00'),
+            ]);
+
+        factory(Time::class)
+            ->create([
+                'task_id' => $task->id,
+                'start' => new Carbon('2018-09-23 20:00:00'),
+                'stop' => new Carbon('2018-09-23 20:05:00'),
+            ]);
+
+        $this->assertEquals($task->length->minutes, 15);
     }
 }
