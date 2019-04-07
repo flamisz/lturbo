@@ -9,7 +9,7 @@ require('./bootstrap');
 
 import { Application } from "stimulus";
 
-import StartstopController from "./controllers/startstop_controller";
+import TaskShowController from "./controllers/task_show_controller";
 
 const application = Application.start();
-application.register("startstop", StartstopController);
+application.register("task-show", TaskShowController);

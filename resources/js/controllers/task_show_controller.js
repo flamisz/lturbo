@@ -1,6 +1,12 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
+    static targets = [ "times" ]
+
+    connect() {
+        console.log("task show stimulus")
+    }
+
     stop() {
         event.preventDefault();
 
@@ -34,10 +40,18 @@ export default class extends Controller {
                     'X-CSRF-TOKEN': token.content
                 }
             })
-            .then(Turbolinks.clearCache())
-            .then(Turbolinks.visit(this.data.get("url")))
-            .catch(function(err) {
-                console.log('Fetch Error :-S', err);
-            });
+            .then(function(response) {
+                if (!response.ok) {
+                    throw Error(response.statusText)
+                }
+                return response
+            })
+            .then(response => response.text())
+            .then(html => {
+                this.timesTarget.innerHTML = html
+            })
+            .catch(err => {
+                console.log('Fetch Error :-S', err)
+            })
     }
 }

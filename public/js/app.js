@@ -2271,7 +2271,7 @@ Copyright © 2018 Basecamp, LLC
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var stimulus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! stimulus */ "./node_modules/stimulus/index.js");
-/* harmony import */ var _controllers_startstop_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controllers/startstop_controller */ "./resources/js/controllers/startstop_controller.js");
+/* harmony import */ var _controllers_task_show_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controllers/task_show_controller */ "./resources/js/controllers/task_show_controller.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -2282,7 +2282,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 var application = stimulus__WEBPACK_IMPORTED_MODULE_0__["Application"].start();
-application.register("startstop", _controllers_startstop_controller__WEBPACK_IMPORTED_MODULE_1__["default"]);
+application.register("task-show", _controllers_task_show_controller__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 /***/ }),
 
@@ -2332,9 +2332,9 @@ Turbolinks.start();
 
 /***/ }),
 
-/***/ "./resources/js/controllers/startstop_controller.js":
+/***/ "./resources/js/controllers/task_show_controller.js":
 /*!**********************************************************!*\
-  !*** ./resources/js/controllers/startstop_controller.js ***!
+  !*** ./resources/js/controllers/task_show_controller.js ***!
   \**********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -2361,6 +2361,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var _default =
@@ -2375,6 +2377,11 @@ function (_Controller) {
   }
 
   _createClass(_default, [{
+    key: "connect",
+    value: function connect() {
+      console.log("task show stimulus");
+    }
+  }, {
     key: "stop",
     value: function stop() {
       event.preventDefault();
@@ -2393,6 +2400,8 @@ function (_Controller) {
   }, {
     key: "start",
     value: function start() {
+      var _this = this;
+
       event.preventDefault();
       var startUrl = this.data.get("url") + "/start";
       var token = document.head.querySelector('meta[name="csrf-token"]');
@@ -2402,7 +2411,17 @@ function (_Controller) {
           'X-Requested-With': 'XMLHttpRequest',
           'X-CSRF-TOKEN': token.content
         }
-      }).then(Turbolinks.clearCache()).then(Turbolinks.visit(this.data.get("url")))["catch"](function (err) {
+      }).then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+
+        return response;
+      }).then(function (response) {
+        return response.text();
+      }).then(function (html) {
+        _this.timesTarget.innerHTML = html;
+      })["catch"](function (err) {
         console.log('Fetch Error :-S', err);
       });
     }
@@ -2410,6 +2429,8 @@ function (_Controller) {
 
   return _default;
 }(stimulus__WEBPACK_IMPORTED_MODULE_0__["Controller"]);
+
+_defineProperty(_default, "targets", ["times"]);
 
 
 

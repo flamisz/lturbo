@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container" data-controller="task-show" data-task-show-url={{ $task->path() }}>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -10,26 +10,20 @@
                         {{ $task->title }}
                     </div>
 
-                    <div data-controller="startstop" data-startstop-url="{{ $task->path() }}"
-                        @if ($task->hasUnstoppedTime())
-                            <form method="POST" action="{{ $task->path() . '/stop' }}">
-                                @csrf
+                    <div>
+                        <form method="POST"
+                              action="{{ $task->hasUnstoppedTime() ?
+                                            $task->path() . '/stop' :
+                                            $task->path() . '/start' }}">
+                            @csrf
 
-                                <button
-                                    type="submit"
-                                    data-action="click->startstop#stop"
-                                    class="btn btn-outline-danger btn-sm">Stop</button>
-                            </form>
-                        @else
-                            <form method="POST" action="{{ $task->path() . '/start' }}">
-                                @csrf
-
-                                <button
-                                    type="submit"
-                                    data-action="click->startstop#start"
-                                    class="btn btn-outline-success btn-sm">Start</button>
-                            </form>
-                        @endif
+                            <button
+                                type="submit"
+                                data-action="click->task-show#start-stop"
+                                class="btn{{ $task->hasUnstoppedTime() ? ' btn-outline-danger' : ' btn-outline-success' }} btn-sm">
+                                    {{ $task->hasUnstoppedTime() ? 'Stop' : 'Start' }}
+                                </button>
+                        </form>
                     </div>
                 </div>
 
@@ -44,22 +38,8 @@
                 </div>
             </div>
 
-            <div class="card mt-4">
-                <div class="card-header">
-                    Times
-                </div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    @foreach ($task->times as $time)
-                        {{ $time->start }} - {{ $time->stop }} {{ $time->length }}<br>
-                    @endforeach
-                </div>
+            <div data-target="task-show.times">
+                @include('tasks.times')
             </div>
         </div>
     </div>
