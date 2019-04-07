@@ -32,6 +32,6 @@
 0. clean laravel default js settings
 1. add turbolinks
 2. first stimulusjs
-  - start and stop time with stimulus
+  - start and stop time with stimulus or turbolinks
 
 ## Update and Delete

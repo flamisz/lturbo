@@ -10,18 +10,24 @@
                         {{ $task->title }}
                     </div>
 
-                    <div>
+                    <div data-controller="startstop" data-startstop-url="{{ $task->path() }}"
                         @if ($task->hasUnstoppedTime())
                             <form method="POST" action="{{ $task->path() . '/stop' }}">
                                 @csrf
 
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Stop</button>
+                                <button
+                                    type="submit"
+                                    data-action="click->startstop#stop"
+                                    class="btn btn-outline-danger btn-sm">Stop</button>
                             </form>
                         @else
                             <form method="POST" action="{{ $task->path() . '/start' }}">
                                 @csrf
 
-                                <button type="submit" class="btn btn-outline-success btn-sm">Start</button>
+                                <button
+                                    type="submit"
+                                    data-action="click->startstop#start"
+                                    class="btn btn-outline-success btn-sm">Start</button>
                             </form>
                         @endif
                     </div>

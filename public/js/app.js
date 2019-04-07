@@ -2271,7 +2271,7 @@ Copyright © 2018 Basecamp, LLC
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var stimulus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! stimulus */ "./node_modules/stimulus/index.js");
-/* harmony import */ var _controllers_hello_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controllers/hello_controller */ "./resources/js/controllers/hello_controller.js");
+/* harmony import */ var _controllers_startstop_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controllers/startstop_controller */ "./resources/js/controllers/startstop_controller.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -2282,7 +2282,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 var application = stimulus__WEBPACK_IMPORTED_MODULE_0__["Application"].start();
-application.register("hello", _controllers_hello_controller__WEBPACK_IMPORTED_MODULE_1__["default"]);
+application.register("startstop", _controllers_startstop_controller__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 /***/ }),
 
@@ -2332,10 +2332,10 @@ Turbolinks.start();
 
 /***/ }),
 
-/***/ "./resources/js/controllers/hello_controller.js":
-/*!******************************************************!*\
-  !*** ./resources/js/controllers/hello_controller.js ***!
-  \******************************************************/
+/***/ "./resources/js/controllers/startstop_controller.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/controllers/startstop_controller.js ***!
+  \**********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2375,9 +2375,36 @@ function (_Controller) {
   }
 
   _createClass(_default, [{
-    key: "connect",
-    value: function connect() {
-      console.log("Hello, Stimulus!", this.element);
+    key: "stop",
+    value: function stop() {
+      event.preventDefault();
+      var stopUrl = this.data.get("url") + "/stop";
+      var token = document.head.querySelector('meta[name="csrf-token"]');
+      fetch(stopUrl, {
+        method: "POST",
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-TOKEN': token.content
+        }
+      }).then(Turbolinks.clearCache()).then(Turbolinks.visit(this.data.get("url")))["catch"](function (err) {
+        console.log('Fetch Error :-S', err);
+      });
+    }
+  }, {
+    key: "start",
+    value: function start() {
+      event.preventDefault();
+      var startUrl = this.data.get("url") + "/start";
+      var token = document.head.querySelector('meta[name="csrf-token"]');
+      fetch(startUrl, {
+        method: "POST",
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-TOKEN': token.content
+        }
+      }).then(Turbolinks.clearCache()).then(Turbolinks.visit(this.data.get("url")))["catch"](function (err) {
+        console.log('Fetch Error :-S', err);
+      });
     }
   }]);
 

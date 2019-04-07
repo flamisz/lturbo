@@ -9,7 +9,7 @@ require('./bootstrap');
 
 import { Application } from "stimulus";
 
-import HelloController from "./controllers/hello_controller";
+import StartstopController from "./controllers/startstop_controller";
 
 const application = Application.start();
-application.register("hello", HelloController);
+application.register("startstop", StartstopController);
