@@ -19,7 +19,9 @@
 
                             <button
                                 type="submit"
-                                data-action="click->task-show#start-stop"
+                                data-action="click->task-show#toggle"
+                                data-target="task-show.button"
+                                data-toggle-action="{{ $task->hasUnstoppedTime() ? 'stop' : 'start' }}"
                                 class="btn{{ $task->hasUnstoppedTime() ? ' btn-outline-danger' : ' btn-outline-success' }} btn-sm">
                                     {{ $task->hasUnstoppedTime() ? 'Stop' : 'Start' }}
                                 </button>

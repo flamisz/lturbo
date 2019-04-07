@@ -2382,30 +2382,16 @@ function (_Controller) {
       console.log("task show stimulus");
     }
   }, {
-    key: "stop",
-    value: function stop() {
-      event.preventDefault();
-      var stopUrl = this.data.get("url") + "/stop";
-      var token = document.head.querySelector('meta[name="csrf-token"]');
-      fetch(stopUrl, {
-        method: "POST",
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-TOKEN': token.content
-        }
-      }).then(Turbolinks.clearCache()).then(Turbolinks.visit(this.data.get("url")))["catch"](function (err) {
-        console.log('Fetch Error :-S', err);
-      });
-    }
-  }, {
-    key: "start",
-    value: function start() {
+    key: "toggle",
+    value: function toggle() {
       var _this = this;
 
       event.preventDefault();
-      var startUrl = this.data.get("url") + "/start";
+      var toggleAction = this.buttonTarget.dataset.toggleAction;
+      console.log(toggleAction);
+      var url = this.data.get("url") + '/' + toggleAction;
       var token = document.head.querySelector('meta[name="csrf-token"]');
-      fetch(startUrl, {
+      fetch(url, {
         method: "POST",
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
@@ -2425,12 +2411,56 @@ function (_Controller) {
         console.log('Fetch Error :-S', err);
       });
     }
+  }, {
+    key: "stop",
+    value: function stop() {
+      event.preventDefault();
+      var stopUrl = this.data.get("url") + "/stop";
+      var token = document.head.querySelector('meta[name="csrf-token"]');
+      fetch(stopUrl, {
+        method: "POST",
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-TOKEN': token.content
+        }
+      }).then(Turbolinks.clearCache()).then(Turbolinks.visit(this.data.get("url")))["catch"](function (err) {
+        console.log('Fetch Error :-S', err);
+      });
+    }
+  }, {
+    key: "start",
+    value: function start() {
+      var _this2 = this;
+
+      event.preventDefault();
+      var startUrl = this.data.get("url") + "/start";
+      var token = document.head.querySelector('meta[name="csrf-token"]');
+      fetch(startUrl, {
+        method: "POST",
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-TOKEN': token.content
+        }
+      }).then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+
+        return response;
+      }).then(function (response) {
+        return response.text();
+      }).then(function (html) {
+        _this2.timesTarget.innerHTML = html;
+      })["catch"](function (err) {
+        console.log('Fetch Error :-S', err);
+      });
+    }
   }]);
 
   return _default;
 }(stimulus__WEBPACK_IMPORTED_MODULE_0__["Controller"]);
 
-_defineProperty(_default, "targets", ["times"]);
+_defineProperty(_default, "targets", ["times", "button"]);
 
 
 

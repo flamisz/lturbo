@@ -35,6 +35,11 @@ class TaskTimeController extends Controller
 
         $task->stop();
 
+        if (request()->ajax()) {
+            $task->load('times');
+            return view('tasks.times', compact('task'));
+        }
+
         return back();
     }
 }
