@@ -31,6 +31,10 @@ export default class extends Controller {
             .then(response => response.text())
             .then(html => {
                 this.timesTarget.innerHTML = html
+                this.buttonTarget.classList.toggle("btn-outline-danger")
+                this.buttonTarget.classList.toggle("btn-outline-success")
+                this.buttonTarget.innerHTML = toggleAction == 'start' ? 'Stop' : 'Start'
+                this.buttonTarget.dataset.toggleAction = toggleAction == 'start' ? 'stop' : 'start'
             })
             .catch(err => {
                 console.log('Fetch Error :-S', err)

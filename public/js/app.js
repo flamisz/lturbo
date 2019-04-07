@@ -2407,6 +2407,13 @@ function (_Controller) {
         return response.text();
       }).then(function (html) {
         _this.timesTarget.innerHTML = html;
+
+        _this.buttonTarget.classList.toggle("btn-outline-danger");
+
+        _this.buttonTarget.classList.toggle("btn-outline-success");
+
+        _this.buttonTarget.innerHTML = toggleAction == 'start' ? 'Stop' : 'Start';
+        _this.buttonTarget.dataset.toggleAction = toggleAction == 'start' ? 'stop' : 'start';
       })["catch"](function (err) {
         console.log('Fetch Error :-S', err);
       });
