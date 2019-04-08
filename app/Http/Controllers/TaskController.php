@@ -51,6 +51,7 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $this->authorize('view', $task);
+        $task->load('times');
 
         return view('tasks.show', compact('task'));
     }

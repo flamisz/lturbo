@@ -33,12 +33,12 @@ class Task extends Model
 
     public function times()
     {
-        return $this->hasMany(Time::class);
+        return $this->hasMany(Time::class)->latest('start');
     }
 
     public function hasUnstoppedTime()
     {
-        return ! ! $this->times()->whereNull('stop')->count();
+        return ! ! $this->times->where('stop', null)->count();
     }
 
     public function getLengthAttribute()

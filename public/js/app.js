@@ -2387,11 +2387,14 @@ function (_Controller) {
       var _this = this;
 
       event.preventDefault();
-      var toggleAction = this.buttonTarget.dataset.toggleAction;
-      console.log(toggleAction);
-      var url = this.data.get("url") + '/' + toggleAction;
       var token = document.head.querySelector('meta[name="csrf-token"]');
-      fetch(url, {
+      var buttonText = this.buttonTarget.innerHTML;
+      var buttonTextMapping = {
+        "Start": "Stop",
+        "Stop": "Start"
+      };
+      console.log(buttonTextMapping, buttonText);
+      fetch(this.data.get("url"), {
         method: "POST",
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
@@ -2412,52 +2415,7 @@ function (_Controller) {
 
         _this.buttonTarget.classList.toggle("btn-outline-success");
 
-        _this.buttonTarget.innerHTML = toggleAction == 'start' ? 'Stop' : 'Start';
-        _this.buttonTarget.dataset.toggleAction = toggleAction == 'start' ? 'stop' : 'start';
-      })["catch"](function (err) {
-        console.log('Fetch Error :-S', err);
-      });
-    }
-  }, {
-    key: "stop",
-    value: function stop() {
-      event.preventDefault();
-      var stopUrl = this.data.get("url") + "/stop";
-      var token = document.head.querySelector('meta[name="csrf-token"]');
-      fetch(stopUrl, {
-        method: "POST",
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-TOKEN': token.content
-        }
-      }).then(Turbolinks.clearCache()).then(Turbolinks.visit(this.data.get("url")))["catch"](function (err) {
-        console.log('Fetch Error :-S', err);
-      });
-    }
-  }, {
-    key: "start",
-    value: function start() {
-      var _this2 = this;
-
-      event.preventDefault();
-      var startUrl = this.data.get("url") + "/start";
-      var token = document.head.querySelector('meta[name="csrf-token"]');
-      fetch(startUrl, {
-        method: "POST",
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-TOKEN': token.content
-        }
-      }).then(function (response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-
-        return response;
-      }).then(function (response) {
-        return response.text();
-      }).then(function (html) {
-        _this2.timesTarget.innerHTML = html;
+        _this.buttonTarget.innerHTML = buttonTextMapping[buttonText];
       })["catch"](function (err) {
         console.log('Fetch Error :-S', err);
       });
