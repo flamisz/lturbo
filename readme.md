@@ -18,4 +18,6 @@ User can create tasks and add time for them.
 - start and stop time
 - save time later
 
+[Steps](steps.md)
+
 Update and delete options

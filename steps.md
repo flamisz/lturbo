@@ -34,6 +34,6 @@
 2. first stimulusjs
   - start and stop time with stimulus or turbolinks
   - v1: stimulus send post request, in the end delete turbolinks cache and reload page with turbolinks
-  - v2: send with stimulus and reload the times table
+  - v2: send with stimulus and reload the times table - THIS IS THE FINAL
 
 ## Update and Delete
