@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('tasks', 'TaskController');
+
+    Route::post('tasks/{task}/toggle', 'TaskTimeController@toggle');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
