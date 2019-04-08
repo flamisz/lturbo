@@ -18,8 +18,7 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('tasks', 'TaskController');
 
-    Route::post('tasks/{task}/start', 'TaskTimeController@start');
-    Route::post('tasks/{task}/stop', 'TaskTimeController@stop');
+    Route::post('tasks/{task}/toggle', 'TaskTimeController@toggle');
 });
 
 Auth::routes();

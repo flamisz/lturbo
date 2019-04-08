@@ -37,7 +37,7 @@ class TaskTest extends TestCase
 
         $this->assertDatabaseMissing('times', ['task_id' => $task->id]);
 
-        $time = $task->start();
+        $time = $task->toggle();
 
         $this->assertDatabaseHas('times', ['task_id' => $task->id]);
     }
@@ -47,11 +47,11 @@ class TaskTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $time = $task->start();
+        $time = $task->toggle();
 
         $this->assertNull($time->stop);
 
-        $time = $task->stop();
+        $time = $task->toggle();
 
         $this->assertNotNull($time->stop);
     }

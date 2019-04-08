@@ -20,18 +20,15 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function start()
+    public function toggle()
     {
+        if ($time = $this->times()->whereNull('stop')->first()) {
+            $time->update(['stop' => now()]);
+
+            return $time;
+        }
+
         return $this->times()->create(['start' => now()]);
-    }
-
-    public function stop()
-    {
-        $time = $this->times()->whereNull('stop')->first();
-
-        $time->update(['stop' => now()]);
-
-        return $time;
     }
 
     public function times()
