@@ -10,6 +10,8 @@ require('./bootstrap');
 import { Application } from "stimulus";
 
 import TaskShowController from "./controllers/task_show_controller";
+import TaskIndexController from "./controllers/task_index_controller";
 
 const application = Application.start();
 application.register("task-show", TaskShowController);
+application.register("task-index", TaskIndexController);

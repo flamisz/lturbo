@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -37,7 +38,18 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $task = auth()->user()->tasks()->create($this->validateRequest());
+        $validator = Validator::make(request()->all(), [
+            'title' => 'sometimes|required|max:255',
+            'description' => 'nullable'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/home')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $task = auth()->user()->tasks()->create($validator->validated());
 
         return redirect($task->path());
     }
@@ -92,9 +104,20 @@ class TaskController extends Controller
 
     protected function validateRequest()
     {
-        return request()->validate([
-            'title' => 'sometimes|required',
+        $validator = Validator::make(request()->all(), [
+            'title' => 'sometimes|required|max:255',
             'description' => 'nullable'
         ]);
+
+        if ($validator->fails()) {
+            return redirect('/home')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        // return request()->validate([
+        //     'title' => 'sometimes|required',
+        //     'description' => 'nullable'
+        // ]);
     }
 }

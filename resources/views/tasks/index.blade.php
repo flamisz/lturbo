@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container" data-controller="task-index">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -14,7 +14,11 @@
                         </div>
                     @endif
 
-                    <a href="/tasks/create">New task</a>
+                    <a href="/tasks/create" data-action="click->task-index#form">New task</a>
+
+                    <div>
+                        @include('tasks/form')
+                    </div>
                 </div>
             </div>
 
@@ -26,7 +30,7 @@
                             <small class="text-muted">XXX days ago</small>
                         </div>
                         <p class="mb-1">{{ $task->description }}</p>
-                        <small class="text-muted">{{ $task->length }}</small>
+                        {{-- <small class="text-muted">{{ $task->length }}</small> --}}
                     </a>
                 @endforeach
             </div>

@@ -37,3 +37,4 @@
   - v2: send with stimulus and reload the times table - THIS IS THE FINAL
 
 ## Update and Delete
+1. new task form
