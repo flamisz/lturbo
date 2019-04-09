@@ -33,9 +33,11 @@
 
     <div class="form-group row mb-0">
         <div class="col-md-6 offset-md-4">
-            <button type="submit" class="btn btn-primary">
-                Create
-            </button>
+            <button
+                type="submit"
+                class="btn btn-primary"
+                data-action="click->task-index#postForm"
+                data-target="task-show.button">Create</button>
         </div>
     </div>
 </form>

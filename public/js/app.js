@@ -2380,22 +2380,38 @@ function (_Controller) {
   }
 
   _createClass(_default, [{
-    key: "connect",
-    value: function connect() {
-      console.log("task index stimulus");
+    key: "toggleForm",
+    value: function toggleForm() {
+      event.preventDefault();
+      this.formTarget.classList.toggle("d-none");
     }
   }, {
-    key: "form",
-    value: function form() {
+    key: "postForm",
+    value: function postForm() {
       event.preventDefault();
-      console.log("new task");
+      var token = document.head.querySelector('meta[name="csrf-token"]');
+      fetch(this.data.get("url"), {
+        method: "POST",
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-TOKEN': token.content
+        }
+      }).then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+
+        return response;
+      }).then(this.formTarget.classList.toggle("d-none"))["catch"](function (err) {
+        console.log('Fetch Error :-S', err);
+      });
     }
   }]);
 
   return _default;
 }(stimulus__WEBPACK_IMPORTED_MODULE_0__["Controller"]);
 
-_defineProperty(_default, "targets", ["times", "button"]);
+_defineProperty(_default, "targets", ["list", "form"]);
 
 
 
@@ -2446,11 +2462,6 @@ function (_Controller) {
   }
 
   _createClass(_default, [{
-    key: "connect",
-    value: function connect() {
-      console.log("task show stimulus");
-    }
-  }, {
     key: "toggle",
     value: function toggle() {
       var _this = this;
@@ -2462,7 +2473,6 @@ function (_Controller) {
         "Start": "Stop",
         "Stop": "Start"
       };
-      console.log(buttonTextMapping, buttonText);
       fetch(this.data.get("url"), {
         method: "POST",
         headers: {

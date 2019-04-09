@@ -1,14 +1,41 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-    static targets = [ "times", "button" ]
+    static targets = [ "list", "form" ]
 
-    connect() {
-        console.log("task index stimulus")
+    toggleForm() {
+        event.preventDefault()
+        this.formTarget.classList.toggle("d-none")
     }
 
-    form() {
+    postForm() {
         event.preventDefault()
-        console.log("new task")
+
+        let token = document.head.querySelector('meta[name="csrf-token"]')
+
+        fetch(this.data.get("url"), {
+            method: "POST",
+            headers:{
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': token.content
+                }
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw Error(response.statusText)
+                }
+                return response
+            })
+            .then(response => response.text())
+            .then(html => {
+                this.timesTarget.innerHTML = html
+                this.buttonTarget.classList.toggle("btn-outline-danger")
+                this.buttonTarget.classList.toggle("btn-outline-success")
+                this.buttonTarget.innerHTML = buttonTextMapping[buttonText]
+            })
+            .then(this.formTarget.classList.toggle("d-none"))
+            .catch(err => {
+                console.log('Fetch Error :-S', err)
+            })
     }
 }

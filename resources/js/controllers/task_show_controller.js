@@ -3,17 +3,13 @@ import { Controller } from "stimulus"
 export default class extends Controller {
     static targets = [ "times", "button" ]
 
-    connect() {
-        console.log("task show stimulus")
-    }
-
     toggle() {
         event.preventDefault()
 
         let token = document.head.querySelector('meta[name="csrf-token"]')
         let buttonText = this.buttonTarget.innerHTML
         let buttonTextMapping = {"Start": "Stop", "Stop": "Start"}
-console.log(buttonTextMapping, buttonText);
+
         fetch(this.data.get("url"), {
             method: "POST",
             headers:{

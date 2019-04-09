@@ -38,18 +38,25 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make(request()->all(), [
-            'title' => 'sometimes|required|max:255',
-            'description' => 'nullable'
-        ]);
+        $validator = $this->validateRequest($request);
 
         if ($validator->fails()) {
-            return redirect('/home')
-                        ->withErrors($validator)
-                        ->withInput();
+            if (request()->ajax()) {
+                return view('tasks.form')->withErrors($validator);
+            }
+
+            return back()
+                    ->withErrors($validator)
+                    ->withInput();
         }
 
         $task = auth()->user()->tasks()->create($validator->validated());
+
+        if (request()->ajax()) {
+            $tasks = auth()->user()->tasks;
+
+            return view('tasks.list', compact('tasks'));
+        }
 
         return redirect($task->path());
     }
@@ -102,22 +109,11 @@ class TaskController extends Controller
         //
     }
 
-    protected function validateRequest()
+    protected function validateRequest($request)
     {
-        $validator = Validator::make(request()->all(), [
-            'title' => 'sometimes|required|max:255',
+        return Validator::make($request->all(), [
+            'title' => 'required|max:255',
             'description' => 'nullable'
         ]);
-
-        if ($validator->fails()) {
-            return redirect('/home')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-
-        // return request()->validate([
-        //     'title' => 'sometimes|required',
-        //     'description' => 'nullable'
-        // ]);
     }
 }
