@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" data-controller="task-show" data-task-show-url="{{ $task->path() . '/toggle' }}">
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -16,9 +16,8 @@
 
                             <button
                                 type="submit"
-                                data-action="click->task-show#toggle"
-                                data-target="task-show.button"
-                                class="btn{{ $task->hasUnstoppedTime() ? ' btn-outline-danger' : ' btn-outline-success' }} btn-sm">{{ $task->hasUnstoppedTime() ? 'Stop' : 'Start' }}</button>
+                                class="btn{{ $task->hasUnstoppedTime() ? ' btn-outline-danger' : ' btn-outline-success' }} btn-sm"
+                                >{{ $task->hasUnstoppedTime() ? 'Stop' : 'Start' }}</button>
                         </form>
                     </div>
                 </div>

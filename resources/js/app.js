@@ -6,10 +6,3 @@
  */
 
 require('./bootstrap');
-
-import { Application } from "stimulus";
-
-import TaskShowController from "./controllers/task_show_controller";
-
-const application = Application.start();
-application.register("task-show", TaskShowController);
