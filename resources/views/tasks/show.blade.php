@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between">
+            <div class="card shadow-sm border-0">
+                <div class="card-header d-flex justify-content-between border-0">
                     <div>
                         {{ $task->title }}
                     </div>
